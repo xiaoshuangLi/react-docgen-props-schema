@@ -1,6 +1,6 @@
 # react-docgen-props-schema
 
-> Converts [react-docgen]((https://github.com/reactjs/react-docgen)) output to [JSON Schema](http://json-schema.org).
+> Converts [react-docgen](https://github.com/reactjs/react-docgen) output to [JSON Schema](http://json-schema.org).
 
 ## Install
 
