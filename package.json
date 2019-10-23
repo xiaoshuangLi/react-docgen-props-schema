@@ -1,4 +1,18 @@
 {
+  "name": "react-docgen-props-schema",
+  "version": "0.0.1",
+  "description": "",
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaoshuangLi/react-docgen-props-schema"
+  },
+  "keywords": [
+    "react", "react-docgen", "JSON-Schema"
+  ],
+  "author": "Xiaoshuang",
+  "homepage": "https://xiaoshuangli.github.io/web-just-for-fun/",
   "dependencies": {
     "doctrine": "^3.0.0",
     "notevil": "^1.3.2",
