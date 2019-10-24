@@ -118,6 +118,7 @@ const getJSONSchema = (input = {}) => {
   const {
     props = {},
     displayName = '',
+    description,
   } = input;
 
   const {
@@ -128,6 +129,7 @@ const getJSONSchema = (input = {}) => {
   const jsonSchema = {
     title: displayName,
     type: 'object',
+    description,
     properties,
   };
 
