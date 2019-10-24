@@ -44,10 +44,6 @@ type Props = BaseProps & {
 };
 
 class TSReactComponent extends Component<Props> {
-  static propTypes = {
-    onClickOutside: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
-  };
   render() {
     const { value, onChange, className, ...others } = this.props;
 
