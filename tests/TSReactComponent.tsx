@@ -44,6 +44,9 @@ type Props = BaseProps & {
 };
 
 class TSReactComponent extends Component<Props> {
+  static propsTypes: {
+    onChange: PropTypes.func,
+  };
   render() {
     const { value, onChange, className, ...others } = this.props;
 
