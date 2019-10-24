@@ -56,8 +56,11 @@ const convertProperty = (signatureProperty = {}) => {
   } else if (currType === 'function') {
     result.type = 'func';
   } else if (currType === 'literal') {
-    result.type = 'string';
-    result.default = safeEval(currValue);
+    const defaultValue = safeEval(currValue);
+    const defaultValueType = typeof defaultValue;
+
+    result.default = defaultValue;
+    result.type = Array.isArray(defaultValueType) ? 'array' : defaultValueType;
   }
 
   return result;
