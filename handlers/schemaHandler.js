@@ -10,17 +10,27 @@ const getSchemaProperties = (props) => {
   const properties = Object.keys(props).reduce((result, key) => {
     const original = props[key];
 
+    if (!original) {
+      return;
+    }
+
+    const {
+      type,
+      description = '',
+      required: originalRequired,
+    } = original;
+
     // Skip props that have '@ignore' in description (eg. in material-ui)
-    if (typeof original.description === 'undefined' && typeof original.type !== 'undefined') {
-      if (original.type.description && original.type.description.indexOf('@ignore') > -1) {
+    if (typeof description === 'undefined' && typeof type !== 'undefined') {
+      if (type.description && type.description.indexOf('@ignore') > -1) {
         return result;
       }
     } else {
-      if (original.description.indexOf('@ignore') > -1) {
+      if (description.indexOf('@ignore') > -1) {
         return result;
       }
 
-      if (original.required) {
+      if (originalRequired) {
         required.push(key);
       }
     }
