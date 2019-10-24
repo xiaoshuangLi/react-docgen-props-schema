@@ -33,7 +33,7 @@ const convertProperty = (signatureProperty = {}) => {
     if (isEnum) {
       result.type = first.type;
       result.enum = currElements.map(
-        (item = {}) => item.defaultValue || item.value,
+        (item = {}) => item.default || item.value,
       );
     } else {
       result.anyOf = currElements;
@@ -57,7 +57,7 @@ const convertProperty = (signatureProperty = {}) => {
     result.type = 'func';
   } else if (currType === 'literal') {
     result.type = 'string';
-    result.defaultValue = safeEval(currValue);
+    result.default = safeEval(currValue);
   }
 
   return result;
