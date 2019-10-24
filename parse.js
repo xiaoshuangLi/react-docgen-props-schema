@@ -6,7 +6,7 @@ const {
   defaultHandlers: baseDefaultHandlers = []
 } = ReactDocgen;
 
-const moreHandlers = Object.values(handlers);
+const moreHandlers = [handlers.propDocHandler, handlers.schemaHandler];
 const defaultHandlers = [...baseDefaultHandlers, ...moreHandlers];
 
 const parse = (src, resolver, handlers = defaultHandlers, ...rest) => baseParse(src, resolver, handlers, ...rest);
