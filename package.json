@@ -11,6 +11,9 @@
   "keywords": [
     "react", "react-docgen", "JSON-Schema"
   ],
+  "scripts": {
+    "test": "node ./tests/index.js"
+  },
   "author": "Xiaoshuang",
   "homepage": "https://xiaoshuangli.github.io/web-just-for-fun/",
   "dependencies": {

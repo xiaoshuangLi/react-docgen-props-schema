@@ -9,6 +9,6 @@ const {
 const moreHandlers = Object.values(handlers);
 const defaultHandlers = [...baseDefaultHandlers, ...moreHandlers];
 
-const parse = (src, resolver, handlers = defaultHandlers, options) => baseParse(src, resolver, handlers);
+const parse = (src, resolver, handlers = defaultHandlers, ...rest) => baseParse(src, resolver, handlers, ...rest);
 
 module.exports = parse;

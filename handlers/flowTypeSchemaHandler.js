@@ -88,7 +88,7 @@ const getSchemaProperties = (props = {}) => {
     const { tsType, flowType, ...others } = original;
     const { description = '' } = others;
 
-    if (original.description.indexOf('@ignore') > -1) {
+    if (description.indexOf('@ignore') > -1) {
       return result;
     }
 
