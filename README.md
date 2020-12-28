@@ -248,6 +248,32 @@ export default ReactComonent;
 -   [ ] PropTypes custom function
 -   [x] PropTypes default values
 
+
+## Babel
+
+```bash
+npm install --D babel-plugin-react-docgen react-docgen-props-schema
+```
+
+Use it inside your `babel.config.js`
+
+```jsx
+{
+  "plugins": [
+    [
+      "react-docgen",
+      {
+        "handlers": [
+          // absolute path to your react-docgen-props-schema file
+          path.resolve(__dirname, "./node_modules/react-docgen-props-schema/handlers/propDocHandler.js"),
+          path.resolve(__dirname, "./node_modules/react-docgen-props-schema/handlers/schemaHandler.js"),
+        ],
+      },
+    ],
+  ]
+}
+```
+
 ## Related
 
 -   [JSON Schema](http://json-schema.org) - Official JSON Schema spec.
