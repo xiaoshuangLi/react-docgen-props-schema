@@ -1,4 +1,6 @@
-const safeEval = require('../utils/safeEval');
+const safeEval = require('./safeEval');
+
+const { getResult } = require('../utils');
 
 const reduceShapeToProps = (shapes = {}) => Object.keys(shapes).reduce((result, key) => {
   result[key] = { type: shapes[key] };
@@ -22,9 +24,9 @@ const getPropertySchema = (curr = {}) => {
     params,
   } = deepValue;
 
-  const result = {
+  const result = getResult(deepValue)({
     type: name,
-  };
+  });
 
   if (description) {
     result.description = description;

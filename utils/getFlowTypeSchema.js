@@ -1,5 +1,7 @@
 const safeEval = require('./safeEval');
 
+const { getResult } = require('../utils');
+
 const getPropertySchema = (signatureProperty = {}) => {
   const {
     tsType = {},
@@ -18,14 +20,17 @@ const getPropertySchema = (signatureProperty = {}) => {
     value: currValue,
   } = value;
 
-  const currType = type || name;
+  const a = type || name;
+  const currType = a === 'ReactNode'
+    ? 'node'
+    : a;
 
-  const result = {
+  const result = getResult(signatureProperty)({
     type: currType,
     format: alias,
     description,
     params,
-  };
+  });
 
   if (currType === 'union') {
     const currElements = elements.map(
@@ -65,7 +70,26 @@ const getPropertySchema = (signatureProperty = {}) => {
       result.required = result.required;
     }
   } else if (currType === 'function') {
+    const {
+      arguments: args = [],
+      return: { name: returnName } = {}
+    } = signature;
+
     result.type = 'func';
+
+    if (args.length && result.params === undefined) {
+      result.params = args.map((item = {}) => {
+        const { type: itemType = item } = item;
+
+        return itemType.name;
+      });
+    }
+
+    if (returnName && result.return === undefined) {
+      result.return = returnName === 'ReactNode'
+        ? 'node'
+        : returnName;
+    }
   } else if (currType === 'literal') {
     const defaultValue = safeEval(currValue);
     const defaultValueType = typeof defaultValue;

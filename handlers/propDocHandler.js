@@ -1,5 +1,7 @@
 const doctrine = require('doctrine');
 
+const { booleanKeys, numberKeys } = require('../utils');
+
 const forEach = (obj = {}) => (cb) => {
   if (typeof obj !== 'object') {
     return;
@@ -42,6 +44,77 @@ const missions = [
     const { name } = curr;
 
     return name ? { alias: name } : {};
+  },
+  // pattern
+  (doc = {}) => {
+    const { tags = [] } = doc;
+    const curr = tags.find(
+      (item = {}) => item.title === 'pattern' && item.description,
+    ) || {};
+
+    const { description } = curr;
+
+    return description ? { pattern: description } : {};
+  },
+  /**
+   * @key
+   *
+   * { [key]: true }
+   */
+  (doc = {}) => {
+    const { tags = [] } = doc;
+
+    return booleanKeys.reduce((res = {}, key) => {
+      const tag = tags.find(
+        (item = {}) => item.title === key,
+      );
+
+      if (tag) {
+        res[key] = true;
+      }
+
+      return res;
+    }, {});
+  },
+  /**
+   * @key 10
+   *
+   * { [key]: 10 }
+   */
+  (doc = {}) => {
+    const { tags = [] } = doc;
+
+    return numberKeys.reduce((res = {}, key) => {
+      const tag = tags.find(
+        (item = {}) => item.title === key && item.description,
+      );
+
+      if (!tag) {
+        return res;
+      }
+
+      const { description } = tag;
+
+      const num = Number(description);
+      const useful = !Number.isNaN(num);
+
+      if (useful) {
+        res[key] = num;
+      }
+
+      return res;
+    }, {});
+  },
+  // return
+  (doc = {}) => {
+    const { tags = [] } = doc;
+    const curr = tags.find(
+      (item = {}) => item.title === 'return' && item.description,
+    ) || {};
+
+    const { description } = curr;
+
+    return description ? { return: description } : {};
   },
 ];
 
