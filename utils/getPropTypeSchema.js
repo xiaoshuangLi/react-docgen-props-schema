@@ -2,8 +2,22 @@ const safeEval = require('./safeEval');
 
 const { getResult } = require('../utils');
 
-const reduceShapeToProps = (shapes = {}) => Object.keys(shapes).reduce((result, key) => {
-  result[key] = { type: shapes[key] };
+const reduceShapeToProps = (shapes = {}, defaultValue = {}) => Object.keys(shapes).reduce((result, key) => {
+  const { [key]: currentShape } = shapes;
+  const { [key]: currentDefaultValue } = defaultValue;
+
+  if (currentShape !== undefined) {
+    const defaultResult = {
+      computed: true,
+      value: currentDefaultValue,
+    };
+
+    const type = currentDefaultValue === undefined
+      ? currentShape
+      : { defaultValue: defaultResult, ...currentShape };
+
+    result[key] = { type };
+  }
 
   return result;
 }, {});
@@ -38,6 +52,24 @@ const getPropertySchema = (curr = {}) => {
 
   if (params) {
     result.params = params;
+  }
+
+  if (defaultValue) {
+    const { computed }  = defaultValue;
+
+    if (computed) {
+      result.default = defaultValue.value;
+    } else {
+      try {
+        const baseDefaultValue = safeEval(defaultValue.value);
+
+        if (baseDefaultValue !== undefined) {
+          result.default = baseDefaultValue;
+        }
+      } catch (e) {
+        console.log('could not evalulate defaultValue', defaultValue.value, e.message);
+      }
+    }
   }
 
   if (name === 'enum') {
@@ -79,15 +111,29 @@ const getPropertySchema = (curr = {}) => {
     result.anyOf = type.value.map((subType) => getPropertySchema({ type: subType }));
     delete result.type;
   } else if (name === 'arrayOf') {
+    const firstItemsDefaultValue = result.default
+      ? result.default[0]
+      : undefined;
+
+    const itemsDefaultValue = firstItemsDefaultValue === undefined
+      ? undefined
+      : { computed: true, value: firstItemsDefaultValue };
+
+    const currentType = itemsDefaultValue === undefined
+      ? type.value
+      : { ...type.value, defaultValue: itemsDefaultValue };
+
+    const items = getPropertySchema({ type: currentType });
+
     result.type = 'array';
-    result.items = getPropertySchema({ type: type.value });
+    result.items = items;
   } else if (name === 'shape' || name === 'exact') {
     result.type = 'object';
 
     const {
       properties,
       required,
-    } = getPropertiesSchema(reduceShapeToProps(type.value));
+    } = getPropertiesSchema(reduceShapeToProps(type.value, result.default));
 
     result.properties = properties;
     if (required.length) {
@@ -104,18 +150,6 @@ const getPropertySchema = (curr = {}) => {
   } else if (name === 'any') {
     // for no type definition, do not define type in schema
     delete result.type;
-  }
-
-  if (defaultValue) {
-    try {
-      const baseDefaultValue = safeEval(defaultValue.value);
-
-      if (baseDefaultValue !== undefined) {
-        result.default = baseDefaultValue;
-      }
-    } catch (e) {
-      console.log('could not evalulate defaultValue', defaultValue.value, e.message);
-    }
   }
 
   return result;

@@ -10,6 +10,7 @@ const getPropertySchema = (signatureProperty = {}) => {
     description,
     params,
     alias,
+    defaultValue,
   } = signatureProperty;
 
   const {
@@ -31,6 +32,24 @@ const getPropertySchema = (signatureProperty = {}) => {
     description,
     params,
   });
+
+  if (defaultValue) {
+    const { computed }  = defaultValue;
+
+    if (computed) {
+      result.default = defaultValue.value;
+    } else {
+      try {
+        const baseDefaultValue = safeEval(defaultValue.value);
+
+        if (baseDefaultValue !== undefined) {
+          result.default = baseDefaultValue;
+        }
+      } catch (e) {
+        console.log('could not evalulate defaultValue', defaultValue.value, e.message);
+      }
+    }
+  }
 
   if (currType === 'union') {
     const currElements = elements.map(
@@ -57,11 +76,25 @@ const getPropertySchema = (signatureProperty = {}) => {
   } else if (currType === 'tuple' || currType === 'array') {
     const [first] = elements;
 
+    const firstItemsDefaultValue = result.default
+      ? result.default[0]
+      : undefined;
+
+    const itemsDefaultValue = firstItemsDefaultValue === undefined
+      ? undefined
+      : { computed: true, value: firstItemsDefaultValue };
+
+    const current = itemsDefaultValue === undefined
+      ? { value: first }
+      : { value: first, defaultValue: itemsDefaultValue };
+
+    const items = getPropertySchema(current);
+
     result.type = 'array';
-    result.items = getPropertySchema({ value: first });
+    result.items = items;
   } else if (currType === 'object') {
     // eslint-disable-next-line
-    const obj = getPropertiesSchema(signature.properties) || {};
+    const obj = getPropertiesSchema(signature.properties, result.default) || {};
     const { properties, required = [] } = obj;
 
     result.properties = properties;
@@ -101,13 +134,23 @@ const getPropertySchema = (signatureProperty = {}) => {
   return result;
 };
 
-const getPropertiesSchema = (signatureProperties = []) => {
+const getPropertiesSchema = (signatureProperties = [], defaultValue = {}) => {
   const required = [];
   const properties = signatureProperties.reduce((res = {}, item = {}) => {
     const { key, required: itemRequired } = item;
+    const { [key]: currentDefaultValue } = defaultValue;
+
+    const defaultResult = {
+      computed: true,
+      value: currentDefaultValue,
+    };
+
+    const current = currentDefaultValue === undefined
+      ? item
+      : { defaultValue: defaultResult, ...item };
 
     itemRequired && required.push(key);
-    res[key] = getPropertySchema(item);
+    res[key] = getPropertySchema(current);
 
     return res;
   }, {});

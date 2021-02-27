@@ -1,23 +1,27 @@
 const parse = require('../parse');
 
-describe('Javascript', () => {
+describe('Typescript', () => {
   test('bool: PropTypes.bool', () => {
     const code = `
       import React from 'react';
       import PropTypes from 'prop-types';
 
-      const ReactComonent = React.forwardRef(
-        (props = {}, ref) => (<div ref={ref} {...props}/>)
-      );
-
-      ReactComonent.propTypes = {
+      type Props = {
         /**
          * boolean
          */
-        bool: PropTypes.bool,
+        bool: boolean;
       };
 
-      export default ReactComonent;
+      class ReactComponent extends Component<Props> {
+        render() {
+          return (
+            <div {...this.props} />
+          );
+        }
+      }
+
+      export default ReactComponent;
     `;
 
     const expected = {
@@ -41,11 +45,7 @@ describe('Javascript', () => {
       import React from 'react';
       import PropTypes from 'prop-types';
 
-      const ReactComonent = React.forwardRef(
-        (props = {}, ref) => (<div ref={ref} {...props}/>)
-      );
-
-      ReactComonent.propTypes = {
+      type Props = {
         /**
          * number
          *
@@ -54,10 +54,18 @@ describe('Javascript', () => {
          * @exclusiveMinimum
          * @exclusiveMaximum
          */
-        number: PropTypes.number,
+        number: number;
       };
 
-      export default ReactComonent;
+      class ReactComponent extends Component<Props> {
+        render() {
+          return (
+            <div {...this.props} />
+          );
+        }
+      }
+
+      export default ReactComponent;
     `;
 
     const expected = {
@@ -85,11 +93,7 @@ describe('Javascript', () => {
       import React from 'react';
       import PropTypes from 'prop-types';
 
-      const ReactComonent = React.forwardRef(
-        (props = {}, ref) => (<div ref={ref} {...props}/>)
-      );
-
-      ReactComonent.propTypes = {
+      type Props = {
         /**
          * string
          *
@@ -97,10 +101,18 @@ describe('Javascript', () => {
          * @maxLength 10
          * @pattern .*
          */
-        string: PropTypes.string,
+        string: string;
       };
 
-      export default ReactComonent;
+      class ReactComponent extends Component<Props> {
+        render() {
+          return (
+            <div {...this.props} />
+          );
+        }
+      }
+
+      export default ReactComponent;
     `;
 
     const expected = {
@@ -127,18 +139,22 @@ describe('Javascript', () => {
       import React from 'react';
       import PropTypes from 'prop-types';
 
-      const ReactComonent = React.forwardRef(
-        (props = {}, ref) => (<div ref={ref} {...props}/>)
-      );
-
-      ReactComonent.propTypes = {
+      type Props = {
         /**
          * enum
          */
-        enum: PropTypes.oneOf(['1', '2']),
+        enum: '1' | '2';
       };
 
-      export default ReactComonent;
+      class ReactComponent extends Component<Props> {
+        render() {
+          return (
+            <div {...this.props} />
+          );
+        }
+      }
+
+      export default ReactComponent;
     `;
 
     const expected = {
@@ -163,18 +179,22 @@ describe('Javascript', () => {
       import React from 'react';
       import PropTypes from 'prop-types';
 
-      const ReactComonent = React.forwardRef(
-        (props = {}, ref) => (<div ref={ref} {...props}/>)
-      );
-
-      ReactComonent.propTypes = {
+      type Props = {
         /**
          * object
          */
-        object: PropTypes.object,
+        object: {};
       };
 
-      export default ReactComonent;
+      class ReactComponent extends Component<Props> {
+        render() {
+          return (
+            <div {...this.props} />
+          );
+        }
+      }
+
+      export default ReactComponent;
     `;
 
     const expected = {
@@ -193,32 +213,37 @@ describe('Javascript', () => {
     expect(actual).toMatchObject(expected);
   });
 
+  // TODO
   test('shape: PropTypes.shape', () => {
     const code = `
       import React from 'react';
       import PropTypes from 'prop-types';
 
-      const ReactComonent = React.forwardRef(
-        (props = {}, ref) => (<div ref={ref} {...props}/>)
-      );
-
-      ReactComonent.propTypes = {
+      type Props = {
         /**
          * shape
          */
-        shape: PropTypes.shape({
+        shape: {
           /**
            * string
            */
-          string: PropTypes.string,
+          string: string;
           /**
            * number
            */
-          number: PropTypes.number,
-        }),
+          number: number;
+        };
       };
 
-      export default ReactComonent;
+      class ReactComponent extends Component<Props> {
+        render() {
+          return (
+            <div {...this.props} />
+          );
+        }
+      }
+
+      export default ReactComponent;
     `;
 
     const expected = {
@@ -230,11 +255,9 @@ describe('Javascript', () => {
             properties: {
               string: {
                 type: 'string',
-                description: 'string',
               },
               number: {
                 type: 'number',
-                description: 'number',
               },
             },
           },
@@ -252,18 +275,22 @@ describe('Javascript', () => {
       import React from 'react';
       import PropTypes from 'prop-types';
 
-      const ReactComonent = React.forwardRef(
-        (props = {}, ref) => (<div ref={ref} {...props}/>)
-      );
-
-      ReactComonent.propTypes = {
+      type Props = {
         /**
          * array
          */
-        array: PropTypes.array,
+        array: [],
       };
 
-      export default ReactComonent;
+      class ReactComponent extends Component<Props> {
+        render() {
+          return (
+            <div {...this.props} />
+          );
+        }
+      }
+
+      export default ReactComponent;
     `;
 
     const expected = {
@@ -282,16 +309,13 @@ describe('Javascript', () => {
     expect(actual).toMatchObject(expected);
   });
 
+  // TODO
   test('array: PropTypes.arrayOf', () => {
     const code = `
       import React from 'react';
       import PropTypes from 'prop-types';
 
-      const ReactComonent = React.forwardRef(
-        (props = {}, ref) => (<div ref={ref} {...props}/>)
-      );
-
-      ReactComonent.propTypes = {
+      type Props = {
         /**
          * array
          *
@@ -299,21 +323,29 @@ describe('Javascript', () => {
          * @maxItems 10
          * @uniqueItems
          */
-        array: PropTypes.arrayOf(
-          PropTypes.shape({
+        array: [
+          {
             /**
              * string
              */
-            string: PropTypes.string,
+            string: string;
             /**
              * number
              */
-            number: PropTypes.number,
-          }),
-        ),
+            number: number;
+          },
+        ];
       };
 
-      export default ReactComonent;
+      class ReactComponent extends Component<Props> {
+        render() {
+          return (
+            <div {...this.props} />
+          );
+        }
+      }
+
+      export default ReactComponent;
     `;
 
     const expected = {
@@ -330,11 +362,9 @@ describe('Javascript', () => {
               properties: {
                 string: {
                   type: 'string',
-                  description: 'string',
                 },
                 number: {
                   type: 'number',
-                  description: 'number',
                 },
               }
             },
@@ -350,21 +380,25 @@ describe('Javascript', () => {
 
   test('node: PropTypes.node', () => {
     const code = `
-      import React from 'react';
+      import React, { ReactNode } from 'react';
       import PropTypes from 'prop-types';
 
-      const ReactComonent = React.forwardRef(
-        (props = {}, ref) => (<div ref={ref} {...props}/>)
-      );
-
-      ReactComonent.propTypes = {
+      type Props = {
         /**
          * node
          */
-        node: PropTypes.node,
+        node: ReactNode;
       };
 
-      export default ReactComonent;
+      class ReactComponent extends Component<Props> {
+        render() {
+          return (
+            <div {...this.props} />
+          );
+        }
+      }
+
+      export default ReactComponent;
     `;
 
     const expected = {
@@ -384,25 +418,25 @@ describe('Javascript', () => {
 
   test('func: PropTypes.func', () => {
     const code = `
-      import React from 'react';
+      import React, { ReactNode } from 'react';
       import PropTypes from 'prop-types';
 
-      const ReactComonent = React.forwardRef(
-        (props = {}, ref) => (<div ref={ref} {...props}/>)
-      );
-
-      ReactComonent.propTypes = {
+      type Props = {
         /**
          * func
-         *
-         * @param value1
-         * @param value2
-         * @return node
          */
-        func: PropTypes.func,
+        func: (value1, value2) => ReactNode,
       };
 
-      export default ReactComonent;
+      class ReactComponent extends Component<Props> {
+        render() {
+          return (
+            <div {...this.props} />
+          );
+        }
+      }
+
+      export default ReactComponent;
     `;
 
     const expected = {
@@ -415,38 +449,6 @@ describe('Javascript', () => {
             return: 'node',
           },
         },
-      },
-    };
-
-    const actual = parse(code) || {};
-
-    expect(actual).toMatchObject(expected);
-  });
-
-  test('string: PropTypes.string.isRequired', () => {
-    const code = `
-      import React from 'react';
-      import PropTypes from 'prop-types';
-
-      const ReactComonent = React.forwardRef(
-        (props = {}, ref) => (<div ref={ref} {...props}/>)
-      );
-
-      ReactComonent.propTypes = {
-        string: PropTypes.string.isRequired,
-      };
-
-      export default ReactComonent;
-    `;
-
-    const expected = {
-      propsSchema: {
-        properties: {
-          string: {
-            type: 'string',
-          },
-        },
-        required: ['string'],
       },
     };
 
