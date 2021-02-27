@@ -1,6 +1,6 @@
 const parse = require('../parse');
 
-test('bool: PropsTypes.bool', () => {
+test('bool: PropTypes.bool', () => {
   const code = `
     import React from 'react';
     import PropTypes from 'prop-types';
@@ -35,7 +35,7 @@ test('bool: PropsTypes.bool', () => {
   expect(actual).toMatchObject(expected);
 });
 
-test('number: PropsTypes.number', () => {
+test('number: PropTypes.number', () => {
   const code = `
     import React from 'react';
     import PropTypes from 'prop-types';
@@ -79,7 +79,7 @@ test('number: PropsTypes.number', () => {
   expect(actual).toMatchObject(expected);
 });
 
-test('string: PropsTypes.string', () => {
+test('string: PropTypes.string', () => {
   const code = `
     import React from 'react';
     import PropTypes from 'prop-types';
@@ -121,7 +121,7 @@ test('string: PropsTypes.string', () => {
   expect(actual).toMatchObject(expected);
 });
 
-test('enum: PropsTypes.oneOf', () => {
+test('enum: PropTypes.oneOf', () => {
   const code = `
     import React from 'react';
     import PropTypes from 'prop-types';
@@ -157,7 +157,7 @@ test('enum: PropsTypes.oneOf', () => {
   expect(actual).toMatchObject(expected);
 });
 
-test('object: PropsTypes.object', () => {
+test('object: PropTypes.object', () => {
   const code = `
     import React from 'react';
     import PropTypes from 'prop-types';
@@ -192,7 +192,7 @@ test('object: PropsTypes.object', () => {
   expect(actual).toMatchObject(expected);
 });
 
-test('shape: PropsTypes.shape', () => {
+test('shape: PropTypes.shape', () => {
   const code = `
     import React from 'react';
     import PropTypes from 'prop-types';
@@ -246,7 +246,7 @@ test('shape: PropsTypes.shape', () => {
   expect(actual).toMatchObject(expected);
 });
 
-test('array: PropsTypes.array', () => {
+test('array: PropTypes.array', () => {
   const code = `
     import React from 'react';
     import PropTypes from 'prop-types';
@@ -281,7 +281,7 @@ test('array: PropsTypes.array', () => {
   expect(actual).toMatchObject(expected);
 });
 
-test('array: PropsTypes.arrayOf', () => {
+test('array: PropTypes.arrayOf', () => {
   const code = `
     import React from 'react';
     import PropTypes from 'prop-types';
@@ -347,7 +347,7 @@ test('array: PropsTypes.arrayOf', () => {
   expect(actual).toMatchObject(expected);
 });
 
-test('node: PropsTypes.node', () => {
+test('node: PropTypes.node', () => {
   const code = `
     import React from 'react';
     import PropTypes from 'prop-types';
@@ -381,7 +381,7 @@ test('node: PropsTypes.node', () => {
   expect(actual).toMatchObject(expected);
 });
 
-test('func: PropsTypes.func', () => {
+test('func: PropTypes.func', () => {
   const code = `
     import React from 'react';
     import PropTypes from 'prop-types';
@@ -422,38 +422,34 @@ test('func: PropsTypes.func', () => {
   expect(actual).toMatchObject(expected);
 });
 
-// TODO
-// test('string: PropsTypes.string.isRequired', () => {
-//   const code = `
-//     import React from 'react';
-//     import PropTypes from 'prop-types';
-// 
-//     const ReactComonent = React.forwardRef(
-//       (props = {}, ref) => (<div ref={ref} {...props}/>)
-//     );
-// 
-//     ReactComonent.propTypes = {
-//       string: PropsTypes.string.isRequired,
-//     };
-// 
-//     export default ReactComonent;
-//   `;
-// 
-//   const expected = {
-//     propsSchema: {
-//       properties: {
-//         string: {
-//           type: 'string',
-//           description: 'string',
-//         },
-//       },
-//       required: ['string'],
-//     },
-//   };
-// 
-//   const actual = parse(code) || {};
-// 
-//   console.log(actual.props);
-// 
-//   expect(actual).toMatchObject(expected);
-// });
+test('string: PropTypes.string.isRequired', () => {
+  const code = `
+    import React from 'react';
+    import PropTypes from 'prop-types';
+
+    const ReactComonent = React.forwardRef(
+      (props = {}, ref) => (<div ref={ref} {...props}/>)
+    );
+
+    ReactComonent.propTypes = {
+      string: PropTypes.string.isRequired,
+    };
+
+    export default ReactComonent;
+  `;
+
+  const expected = {
+    propsSchema: {
+      properties: {
+        string: {
+          type: 'string',
+        },
+      },
+      required: ['string'],
+    },
+  };
+
+  const actual = parse(code) || {};
+
+  expect(actual).toMatchObject(expected);
+});

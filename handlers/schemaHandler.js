@@ -19,7 +19,7 @@ const getPartSchema = (props) => {
     } = original;
 
     const ignored = description.includes('ignored');
-    const tsOrFlow = tsType || flowType
+    const tsOrFlow = tsType || flowType;
 
     const fn = tsOrFlow ? getFlowTypeSchema : getPropTypeSchema;
     const schema = ignored ? original : fn(original);
