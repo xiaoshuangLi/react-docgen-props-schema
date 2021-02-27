@@ -114,7 +114,9 @@ const missions = [
 
     const { description } = curr;
 
-    return description ? { return: description } : {};
+    return description
+      ? { return: { type: description } }
+      : {};
   },
 ];
 

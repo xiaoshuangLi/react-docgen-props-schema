@@ -446,7 +446,7 @@ describe('Typescript', () => {
             type: 'func',
             description: 'func',
             params: ['value1', 'value2'],
-            return: 'node',
+            return: { type: 'node' },
           },
         },
       },

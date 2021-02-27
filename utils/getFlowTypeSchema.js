@@ -120,8 +120,8 @@ const getPropertySchema = (signatureProperty = {}) => {
 
     if (returnName && result.return === undefined) {
       result.return = returnName === 'ReactNode'
-        ? 'node'
-        : returnName;
+        ? { type: 'node' }
+        : { type: returnName };
     }
   } else if (currType === 'literal') {
     const defaultValue = safeEval(currValue);
