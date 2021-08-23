@@ -215,6 +215,12 @@ describe('Javascript', () => {
            * number
            */
           number: PropTypes.number,
+          /**
+           * render
+           * 
+           * @return node
+           */
+          render: PropTypes.func,
         }),
       };
 
@@ -235,6 +241,13 @@ describe('Javascript', () => {
               number: {
                 type: 'number',
                 description: 'number',
+              },
+              render: {
+                type: 'func',
+                description: 'render',
+                return: {
+                  type: 'node',
+                },
               },
             },
           },
@@ -309,6 +322,12 @@ describe('Javascript', () => {
              * number
              */
             number: PropTypes.number,
+            /**
+             * render
+             * 
+             * @return node
+             */
+            render: PropTypes.func,
           }),
         ),
       };
@@ -335,6 +354,13 @@ describe('Javascript', () => {
                 number: {
                   type: 'number',
                   description: 'number',
+                },
+                render: {
+                  type: 'func',
+                  description: 'render',
+                  return: {
+                    type: 'node',
+                  },
                 },
               }
             },

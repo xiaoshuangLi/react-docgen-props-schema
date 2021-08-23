@@ -7,6 +7,12 @@ const forEach = (obj = {}) => (cb) => {
     return;
   }
 
+  const { name, value } = obj;
+
+  if (name === 'shape') {
+    obj = value;
+  }
+
   const fn = (value = {}) => {
     const { type, value: deepValue = type } = value;
 
