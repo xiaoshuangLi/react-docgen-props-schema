@@ -73,7 +73,7 @@ const getPropertySchema = (signatureProperty = {}) => {
     } else {
       result.anyOf = currElements;
     }
-  } else if (currType === 'tuple' || currType === 'array') {
+  } else if (currType === 'tuple' || currType === 'Array') {
     const [first] = elements;
 
     const firstItemsDefaultValue = result.default

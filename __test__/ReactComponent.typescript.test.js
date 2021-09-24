@@ -280,6 +280,10 @@ describe('Typescript', () => {
          * array
          */
         array: [],
+        /**
+         * strings
+         */
+        strings: string[],
       };
 
       class ReactComponent extends Component<Props> {
@@ -299,6 +303,11 @@ describe('Typescript', () => {
           array: {
             type: 'array',
             description: 'array',
+          },
+          strings: {
+            type: 'array',
+            description: 'strings',
+            items: { type: 'string' },
           },
         },
       },
